@@ -1,10 +1,3 @@
-## BrasilAPI-Java
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/SavioAndres/BrasilAPI-Java/blob/main/LICENSE)
-[![Java CI with Maven](https://github.com/SavioAndres/BrasilAPI-Java/actions/workflows/maven.yml/badge.svg)](https://github.com/SavioAndres/BrasilAPI-Java/actions/workflows/maven.yml)
-[![CodeQL](https://github.com/SavioAndres/BrasilAPI-Java/actions/workflows/codeql.yml/badge.svg)](https://github.com/SavioAndres/BrasilAPI-Java/actions/workflows/codeql.yml)
-[![JitPack](https://jitpack.io/v/SavioAndres/BrasilAPI-Java.svg)](https://jitpack.io/#SavioAndres/BrasilAPI-Java/v1.1.0)
-
-Biblioteca criada para facilitar o acesso à API [BrasilAPI](https://github.com/BrasilAPI/BrasilAPI) na linguagem de programação Java.
 
 ```
   ____                _ _    _    ____ ___          _                  
@@ -16,26 +9,6 @@ Biblioteca criada para facilitar o acesso à API [BrasilAPI](https://github.com/
 
 ## Informações
 - Suporte à Java 8 ou superior.
-
-## Instalação
-### Maven
-```xml
-  <dependencies>
-  	<dependency>
-	    <groupId>com.github.SavioAndres</groupId>
-	    <artifactId>BrasilAPI-Java</artifactId>
-	    <version>v1.1.0</version>
-  	</dependency>
-  </dependencies>
-  <repositories>
-	<repository>
-	    <id>jitpack.io</id>
-	    <url>https://jitpack.io</url>
-	</repository>
-  </repositories>
-```
-### Demais gerenciadores:
-Gradle, SBT e Leiningen disponíveis em: [JitPack BrasilAPI-Java](https://jitpack.io/#SavioAndres/BrasilAPI-Java/v1.1.0)
 
 ## Exemplo de utilização
 ```java
@@ -85,5 +58,3 @@ Taxa[] taxas                    		= BrasilAPI.taxas();
 Taxa taxa                       		= BrasilAPI.taxa("SELIC");
 
 ```
-
-Saiba mais em: [Biblioteca BrasilAPI-Java](https://savio.pw/posts/biblioteca-brasilapi-java)

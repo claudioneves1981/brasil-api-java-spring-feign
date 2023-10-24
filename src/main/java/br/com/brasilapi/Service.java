@@ -1,57 +1,15 @@
 package br.com.brasilapi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.net.ssl.HttpsURLConnection;
+@FeignClient(name="brasilapi", url="https://brasilapi.com.br/api/")
+@RestController
+public interface Service {
 
-class Service {
-	private static HttpsURLConnection connection;
-	
-	protected Service() {
-	}
-	
-	protected static HttpsURLConnection getHttpsURLConnection() {
-		return connection;
-	}
-
-	protected static String connection(String urlParameter) {
-		String json = null;
-
-		try {
-			URL url = new URL("https://brasilapi.com.br/api/" + urlParameter);
-
-			Log.setConsole("Acessando: " + url);
-
-			connection = (HttpsURLConnection) url.openConnection();
-			connection.setDoOutput(true);
-			connection.setRequestMethod("GET");
-
-			if (Log.getEnable() && connection.getResponseCode() != HttpsURLConnection.HTTP_OK) {
-				Log.setConsoleError("ERROR. HTTP error code: " + connection.getResponseCode() + "\n");
-			}
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-
-			String output, retorno = "";
-
-			while ((output = br.readLine()) != null) {
-				retorno += output;
-			}
-
-			json = retorno;
-
-			Log.setConsole("Json retornado: " + json);
-			
-		} catch (IOException e) {
-			Log.setConsoleError(e.getMessage());
-			//conector.disconnect();
-			//e.printStackTrace();
-		}
-
-		return json;
-	}
+	@GetMapping("{parameter}")
+	String connection(@PathVariable("parameter") String urlParameter);
 
 }

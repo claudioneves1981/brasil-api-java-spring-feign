@@ -1,7 +1,5 @@
 package br.com.brasilapi;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.Gson;
 
 import br.com.brasilapi.api.Bank;
@@ -27,6 +25,9 @@ import br.com.brasilapi.api.NCM;
 import br.com.brasilapi.api.PIX;
 import br.com.brasilapi.api.RegistroBR;
 import br.com.brasilapi.api.Taxa;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * Biblioteca criada para facilitar o acesso à API BrasilAPI na linguagem de
@@ -52,18 +53,38 @@ import br.com.brasilapi.api.Taxa;
  * @see <a href=
  *      "https://github.com/SavioAndres/BrasilAPI-Java">https://github.com/SavioAndres/BrasilAPI-Java</a>
  */
+
+@EnableFeignClients
+@SpringBootApplication
 public class BrasilAPI {
 	private static final String BAR = "<2F>";
 	private static Gson gson = new Gson();
 
-	/**
-	 * Retorna a conexão relaizada ao endpoint da API, 
-	 * dando total liberdade para manipular como desejar.
-	 * @return HttpsURLConnection
-	 */
-	public static HttpsURLConnection getHttpsURLConnection() {
-		return Service.getHttpsURLConnection();
+    private static Service service;
+
+	public BrasilAPI(Service service) {
+		BrasilAPI.service = service;
 	}
+
+
+	public static void main(String[] args) {
+
+		SpringApplication.run(BrasilAPI.class, args);
+
+		final String VERSION = "v1.1.0";
+
+		System.out.println(""
+				+ "  ____                _ _    _    ____ ___          _                  \r\n"
+				+ " | __ ) _ __ __ _ ___(_) |  / \\  |  _ \\_ _|        | | __ ___   ____ _ \r\n"
+				+ " |  _ \\| '__/ _` / __| | | / _ \\ | |_) | |_____ _  | |/ _` \\ \\ / / _` |\r\n"
+				+ " | |_) | | | (_| \\__ \\ | |/ ___ \\|  __/| |_____| |_| | (_| |\\ V / (_| |\r\n"
+				+ " |____/|_|  \\__,_|___/_|_/_/   \\_\\_|  |___|     \\___/ \\__,_| \\_/ \\__,_|\r\n"
+				+ "\r\n BrasilAPI-Java. Version \u001B[42m" + VERSION + "\u001B[0m"
+				+ "\r\n created by https://github.com/SavioAndres/BrasilAPI-Java"
+                + "\r\n SpringBoot with Feign version modified by Cláudio Neves https://github.com/claudioneves1981/brasil-api-java-spring-feign");
+
+
+    }
 	
 	/**
 	 * Habilitar ou desabilitar Log.
@@ -241,7 +262,7 @@ public class BrasilAPI {
 	 */
 	public static CPTECCidade[] cptecListarLocalidades() {
 		CPTEC[] obj = (CPTEC[]) api(CPTEC[].class, "cptec/v1/cidade", "");
-		return obj != null ? (CPTEC[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 	
 	/**
@@ -255,7 +276,7 @@ public class BrasilAPI {
 	 */
 	public static CPTECCidade[] cptecBuscarLocalidades(String nomeCidade) {
 		CPTEC[] obj = (CPTEC[]) api(CPTEC[].class, "cptec/v1/cidade/", nomeCidade);
-		return obj != null ? (CPTECCidade[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 	
 	/**
@@ -266,7 +287,7 @@ public class BrasilAPI {
 	 */
 	public static CPTECClimaCapital[] cptecCondicoesAtuaisCapitais() {
 		CPTEC[] obj = (CPTEC[]) api(CPTEC[].class, "cptec/v1/clima/capital", "");
-		return obj != null ? (CPTECClimaCapital[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 	
 	/**
@@ -352,7 +373,7 @@ public class BrasilAPI {
 	 */
 	public static Feriados[] feriados(String ano) {
 		Feriados[] obj = (Feriados[]) api(Feriados[].class, "feriados/v1/", ano);
-		return obj != null ? (Feriados[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -365,7 +386,7 @@ public class BrasilAPI {
 	 */
 	public static FipeMarca[] fipeMarcas(String tipoVeiculo) {
 		FipeMarca[] obj = (FipeMarca[]) api(FipeMarca[].class, "fipe/marcas/v1/", tipoVeiculo);
-		return obj != null ? (FipeMarca[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -377,7 +398,7 @@ public class BrasilAPI {
 	 */
 	public static FipePreco[] fipePrecos(String codigoFipe) {
 		FipePreco[] obj = (FipePreco[]) api(FipePreco[].class, "fipe/preco/v1/", codigoFipe);
-		return obj != null ? (FipePreco[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -387,7 +408,7 @@ public class BrasilAPI {
 	 */
 	public static FipeTabela[] fipeTabelas() {
 		FipeTabela[] obj = (FipeTabela[]) api(FipeTabela[].class, "fipe/tabelas/v1", "");
-		return obj != null ? (FipeTabela[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -398,7 +419,7 @@ public class BrasilAPI {
 	 */
 	public static IBGEMunicipio[] ibgeMunicipios(String siglaUF) {
 		IBGEMunicipio[] obj = (IBGEMunicipio[]) api(IBGEMunicipio[].class, "ibge/municipios/v1/", siglaUF);
-		return obj != null ? (IBGEMunicipio[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -423,7 +444,7 @@ public class BrasilAPI {
 
 		IBGEMunicipio[] obj = (IBGEMunicipio[]) api(IBGEMunicipio[].class, "ibge/municipios/v1/",
 				siglaUF + providesParameter);
-		return obj != null ? (IBGEMunicipio[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -433,7 +454,7 @@ public class BrasilAPI {
 	 */
 	public static IBGEUF[] ibgeUf() {
 		IBGEUF[] obj = (IBGEUF[]) api(IBGEUF[].class, "ibge/uf/v1", "");
-		return obj != null ? (IBGEUF[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -498,7 +519,7 @@ public class BrasilAPI {
 	 */
 	public static NCM[] ncm() {
 		NCM[] obj = (NCM[]) api(NCM[].class, "ncm/v1", "");
-		return obj != null ? (NCM[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -520,7 +541,7 @@ public class BrasilAPI {
 	 */
 	public static NCM[] ncmSearch(String code) {
 		NCM[] obj = (NCM[]) api(NCM[].class, "ncm/v1?search=", code);
-		return obj != null ? (NCM[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 	
 	/**
@@ -530,7 +551,7 @@ public class BrasilAPI {
 	 */
 	public static PIX[] pixParticipantes() {
 		PIX[] obj = (PIX[]) api(PIX[].class, "pix/v1/participants", "");
-		return obj != null ? (PIX[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -551,7 +572,7 @@ public class BrasilAPI {
 	 */
 	public static Taxa[] taxas() {
 		Taxa[] obj = (Taxa[]) api(Taxa[].class, "taxas/v1", "");
-		return obj != null ? (Taxa[]) obj.clone() : null;
+		return obj != null ? obj.clone() : null;
 	}
 
 	/**
@@ -580,9 +601,8 @@ public class BrasilAPI {
 			code = code.replaceAll("/", "").replaceAll(BAR, "/");
 			if (Cache.getEnableCache()) {
 				Object obj = Cache.getCache(classAPIModel, code);
-	
 				if (obj == null) {
-					String json = Service.connection(parameter + code);
+					String json = service.connection(parameter + code);
 					if (json != null) {
 						obj = gson.fromJson(json, classAPIModel);
 						Cache.setCache(classAPIModel, code, obj);
@@ -591,7 +611,7 @@ public class BrasilAPI {
 	
 				return obj;
 			} else {
-				String json = Service.connection(parameter + code);
+				String json = service.connection(parameter + code);
 				return gson.fromJson(json, classAPIModel);
 			}
 		} catch (Exception e) {
@@ -600,17 +620,6 @@ public class BrasilAPI {
 		}
 	}
 
-	public static void main(String[] args) {
-		final String VERSION = "v1.1.0";
-		
-		System.out.println(""
-				+ "  ____                _ _    _    ____ ___          _                  \r\n"
-				+ " | __ ) _ __ __ _ ___(_) |  / \\  |  _ \\_ _|        | | __ ___   ____ _ \r\n"
-				+ " |  _ \\| '__/ _` / __| | | / _ \\ | |_) | |_____ _  | |/ _` \\ \\ / / _` |\r\n"
-				+ " | |_) | | | (_| \\__ \\ | |/ ___ \\|  __/| |_____| |_| | (_| |\\ V / (_| |\r\n"
-				+ " |____/|_|  \\__,_|___/_|_/_/   \\_\\_|  |___|     \\___/ \\__,_| \\_/ \\__,_|\r\n"
-				+ "\r\n BrasilAPI-Java. Version \u001B[42m" + VERSION + "\u001B[0m"
-				+ "\r\n https://github.com/SavioAndres/BrasilAPI-Java");
-	}
+
 
 }
